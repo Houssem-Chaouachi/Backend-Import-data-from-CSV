@@ -58,4 +58,5 @@ router.get('/:id', passport.authenticate('bearer', { session: false }), (req, re
     }).catch(err => res.status(400).json('Error: ' + err));
 });
 
+
 module.exports = router;
