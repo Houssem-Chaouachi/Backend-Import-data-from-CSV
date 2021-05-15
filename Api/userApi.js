@@ -49,4 +49,13 @@ router.get('/',  passport.authenticate('bearer', { session: false }), async(req,
     const user = await User.find()
     res.send(user)
 })
+// get user by id
+
+router.get('/:id', passport.authenticate('bearer', { session: false }), (req, res) => {
+
+    User.findById(req.params.id).populate('role').then(data => {
+        res.status(200).json(data);
+    }).catch(err => res.status(400).json('Error: ' + err));
+});
+
 module.exports = router;
