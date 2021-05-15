@@ -7,7 +7,6 @@ const { env } = require('process');
 require('dotenv').config()
 const port = 3000
 
-console.log(process.env.USER_NAME);
 
 app.listen(port, ()=> {
     console.log(`Example app listening at http://localhost:${port}`);
