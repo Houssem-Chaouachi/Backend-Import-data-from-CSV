@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 // const db = require('./database/bd');
 const cors = require('cors');
 const user = require('./Api/userApi')
+const fileUpload =require('./Api/fileUploadApi')
 const { env } = require('process');
 require('dotenv').config()
 require('./config/passport');
@@ -18,6 +19,7 @@ app.use(cors());
 
 
 app.use('/user', user);
+app.use('/file', fileUpload)
 
 var mongoDB = 'mongodb://127.0.0.1/expensya';
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true}).then(
