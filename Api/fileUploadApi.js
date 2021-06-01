@@ -19,32 +19,35 @@ const upload = multer({ storage: storage })
 
 
     // upload file 
+
 router.post('/upload' ,upload.single('file'),  (req, res , next)=>{
-  console.log(req.file.filename);
+  // console.log(req.file.filename);
   const file = new fileSchema ({
     
     file : req.file.filename
 })
 file.save();
-res.json({message:'file uploaded'})
+res.json({message:'file uploaded',filename:req.file.filename})
 })
 
 
-router.post('/add/:filename' ,  (req, response , next)=>{
 
-  // convert to json 
+
+
+      // matching
+
+router.get('/add/:filename' , async (req, response , next)=>{
   var result = [];
   var arr=[]
   elements=[]
 fs.createReadStream(path.resolve('./uploads', req.params.filename)).pipe(csv())
-.on('headers', (headers) => {
-  headers.forEach(async (element) => {
-    
-  translate(element, {to: 'en'}).then(res => {
+.on('headers',async (headers) => {
+ await Promise.all(headers.map(async (element) => {
+  const res = await translate(element, {to: 'en'}) 
     result.push(res.text)
-    results = fuzz.extract(res.text,[
+   results = fuzz.extract(res.text,[
       "LastName",
-      "FirsName",
+      "FirstName",
       "Language",
       "PayId",
       "PayId2",
@@ -68,18 +71,15 @@ fs.createReadStream(path.resolve('./uploads', req.params.filename)).pipe(csv())
       "MileageRate",
       "IKReference",
     ],{returnObjects: true});
-     arr.push(results)
-     elements.push(element)
-    })
-  })
+    await arr.push(results)
+   await  elements.push(element)
+    //  console.log(arr);
+    
+  }))
+
   // console.log(element);
-  
-  setTimeout(() => {
     arr.push(elements)
-  response.json(arr);
-  
-  }, 3000);
-  
+  response.json(arr); 
   })
   });
   
