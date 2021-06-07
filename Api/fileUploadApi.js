@@ -50,27 +50,14 @@ fs.createReadStream(path.resolve('./uploads', req.params.filename)).pipe(csv())
       "FirstName",
       "Language",
       "PayId",
-      "PayId2",
-      "PayId3",
-      "PayId4",
-      "PayId5",
-      "PayId6",
       "Mail",
-      "ManagerMail",
       "ManagerPayId",
       "IsAdmin",
       "IsAccountant",
       "Tags",
       "LocalCountry",
       "LocalCurrency",
-      "ReviewerMail",
-      "ReviewerPayId",
-      "DefaultProjectExternalId",
-      "IsActive",
-      "MailAlias",
-      "MileageRate",
-      "IKReference",
-    ],{returnObjects: true});
+    ],{sortBySimilarity: true});
     await arr.push(results)
    await  elements.push(element)
     //  console.log(arr);
